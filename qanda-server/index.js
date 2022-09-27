@@ -6,6 +6,7 @@ const argon2 = require('argon2')
 const bodyParser = require('body-parser')
 
 const categoryRouter = require('./routers/category');
+const questionRouter = require('./routers/question');
 const app = express();
 const PORT = process.env.port || 5000;
 dotenv.config()
@@ -34,6 +35,7 @@ app.listen(PORT, () => {
     console.log(`server is running port  ${PORT}`);
 })
 app.use('/', categoryRouter)
+app.use('/question', questionRouter)
 
 app.use(express.json())
 

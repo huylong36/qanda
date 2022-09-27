@@ -6,6 +6,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import "./header.scss";
 import { useState } from 'react';
+import { FCDialog } from '../../components/Modal';
+import { FCEditor } from '../../components/TinymceEditor';
 const Header = () => {
     const theme = useTheme();
     const isTabletUI = useMediaQuery(theme.breakpoints.down("lg"));
@@ -13,6 +15,18 @@ const Header = () => {
     const handleActive = () => {
         setisActive(!isActive);
     }
+    const [isOpen, setOpen] = useState<boolean>(false);
+    const showAskQuestion = () => {
+        setOpen(true);
+    }
+    const renderContentDialogAskQuestion = () => {
+        return (
+            <div>
+                <FCEditor handleChangeContent={(content: string) => console.log('content', content)} defaultValue={''} height={600} />
+            </div>
+        )
+    }
+
     return <>
         <div className={isActive ? "app-bar-header active" : "app-bar-header"} >
             <Container maxWidth="xl" className="custom-ctn">
@@ -34,13 +48,22 @@ const Header = () => {
                         </Button>
                     </div>
                     <div className="right-nav-header">
-                        <Button className="ask-question">ASK QUESTION</Button>
+                        <Button className="ask-question" onClick={() => showAskQuestion()}>ASK QUESTION</Button>
                         <NotificationsIcon className="notifications" />
                         <Button className="login-panel">Login</Button>
                     </div>
                 </div>
             </Container>
         </div>
+        <FCDialog
+            open={isOpen}
+            title={'ASK QUESTION'}
+            size="md"
+            handleClose={() => {
+                setOpen(false)
+            }}
+            content={renderContentDialogAskQuestion()}
+        />
     </>
 }
 export default Header;
