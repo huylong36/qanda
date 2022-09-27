@@ -1,10 +1,11 @@
 const Question = require("../models/Question");
 
 const createQuestion = async (req, res) => {
-    const { name, slug, categoryId } = req.body;
+    const { name, content, slug, categoryId } = req.body;
     try {
         const newQuestion = new Question({
             name,
+            content,
             slug,
             category: categoryId,
         });

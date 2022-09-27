@@ -1,8 +1,7 @@
-import { get, post } from "./fetcher";
+import { AxiosResponse } from "axios";
+import { ApiClient } from "./fetcher";
 
 export const apiGetCategory = async () => {
-    const { data, error } = await get({
-        endpoint: "/get-category",
-    });
-    return error ? [] : data;
-}
+    const response: AxiosResponse<any> = await ApiClient.get('/get-category');
+    return response;
+};

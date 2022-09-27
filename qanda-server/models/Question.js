@@ -5,6 +5,9 @@ const QuestionSchema = new Schema(
         name: {
             type: String,
         },
+        content: {
+            type: String,
+        },
         slug: {
             type: String,
         },
