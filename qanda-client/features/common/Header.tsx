@@ -17,7 +17,7 @@ const Header = () => {
     const [isActive, setisActive] = useState<Boolean>(false);
     const [content, setContent] = useState<string>('');
 
-    const [subbject, setSubject] = useState('');
+    const [subbject, setSubject] = useState('Choose Subject');
 
     const [categories, setCategories] = useState<any>([])
 
@@ -49,7 +49,10 @@ const Header = () => {
     const renderContentDialogAskQuestion = () => {
         return (
             <div>
-                <TextField placeholder='Title Question' />
+                <TextField placeholder='Title Question'
+                    variant="standard"
+                    className="title-question"
+                />
                 <TextareaAutosize
                     maxRows={10}
                     aria-label="maximum height"
@@ -60,14 +63,15 @@ const Header = () => {
                 />
 
 
-                <FormControl >
-                    <InputLabel id="demo-simple-select-label">Subject</InputLabel>
+                <FormControl style={{ marginTop: "30px", width: "30%" }}>
+                    <InputLabel htmlFor="demo-simple-select-label" className="custom-select-label">Choose Subject</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={subbject}
                         onChange={handleChangeSubject}
-                        defaultValue={'Choose subject'}
+                        defaultValue="Choose subject"
+
                     >
                         {categories?.category?.map((category) => (
                             <MenuItem key={category._id} value={category._id}>{category?.name}</MenuItem>
@@ -75,7 +79,9 @@ const Header = () => {
                     </Select>
                 </FormControl>
 
-                <Button onClick={() => createQuestion()}>Create</Button>
+                <div className="btn-create-question">
+                    <Button variant="contained" onClick={() => createQuestion()}>Ask your question</Button>
+                </div>
             </div>
         )
     }
