@@ -11,20 +11,24 @@ import { FCEditor } from '../../components/TinymceEditor';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { createQuestionApi } from '../../utils/api/questionApi';
 import { apiGetCategory } from '../../utils/api/categoryApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategories } from '../../components/Category/category.slice';
 const Header = () => {
     const theme = useTheme();
     const isTabletUI = useMediaQuery(theme.breakpoints.down("lg"));
     const [isActive, setisActive] = useState<Boolean>(false);
     const [content, setContent] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
 
     const [subbject, setSubject] = useState('Choose Subject');
 
-    const [categories, setCategories] = useState<any>([])
 
-    const handleActive = () => {
-        setisActive(!isActive);
-    }
+    const stateCategory = useSelector(state => state.categories)
+
+
+    console.log('stateCategory', stateCategory)
     const [isOpen, setOpen] = useState<boolean>(false);
+    const dispatch = useDispatch();
     const showAskQuestion = () => {
         setOpen(true);
     }
@@ -32,18 +36,16 @@ const Header = () => {
         setContent(e.target.value)
     }
     useEffect(() => {
-        apiGetCategory().then((res) => {
-            setCategories(res.data)
-        })
-    }, [])
-    useEffect(() => {
-
+        dispatch(fetchCategories());
     }, [])
     const handleChangeSubject = (event) => {
         setSubject(event.target.value)
     }
+    const handleChangeTitle = (event) => {
+        setTitle(event.target.value)
+    }
     const createQuestion = () => {
-        createQuestionApi({ title: "123", content: content, categoryId: subbject }).then((res) => {
+        createQuestionApi({ name: title, content: content, categoryId: subbject }).then((res) => {
         })
     }
     const renderContentDialogAskQuestion = () => {
@@ -52,6 +54,7 @@ const Header = () => {
                 <TextField placeholder='Title Question'
                     variant="standard"
                     className="title-question"
+                    onChange={handleChangeTitle}
                 />
                 <TextareaAutosize
                     maxRows={10}
@@ -73,9 +76,9 @@ const Header = () => {
                         defaultValue="Choose subject"
 
                     >
-                        {categories?.category?.map((category) => (
+                        {/* {categories?.category?.map((category) => (
                             <MenuItem key={category._id} value={category._id}>{category?.name}</MenuItem>
-                        ))}
+                        ))} */}
                     </Select>
                 </FormControl>
 
