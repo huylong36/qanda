@@ -11,20 +11,19 @@ import { FCEditor } from '../../components/TinymceEditor';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { createQuestionApi } from '../../utils/api/questionApi';
 import { apiGetCategory } from '../../utils/api/categoryApi';
-import { useDispatch, useSelector } from 'react-redux';
+import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../../components/Category/category.slice';
+import { CombinedState } from 'redux';
 const Header = () => {
     const theme = useTheme();
     const isTabletUI = useMediaQuery(theme.breakpoints.down("lg"));
-    const [isActive, setisActive] = useState<Boolean>(false);
     const [content, setContent] = useState<string>('');
     const [title, setTitle] = useState<string>('');
 
     const [subbject, setSubject] = useState('Choose Subject');
 
 
-    const stateCategory = useSelector(state => state.categories)
-
+    // const stateCategory = useSelector((state) => state.categories);
 
     console.log('stateCategory', stateCategory)
     const [isOpen, setOpen] = useState<boolean>(false);
@@ -90,7 +89,7 @@ const Header = () => {
     }
 
     return <>
-        <div className={isActive ? "app-bar-header active" : "app-bar-header"} >
+        <div className="app-bar-header">
             <Container maxWidth="xl" className="custom-ctn">
                 <div className="app-bar-header-nav">
                     <div className="left-nav-header">
