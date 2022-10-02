@@ -10,13 +10,11 @@ export const fetchCategories = createAsyncThunk("categories/fetch", async () => 
     const { data } = await apiGetCategory();
     return data;
 })
+
 const categorySlice = createSlice({
     name: "categories",
     initialState,
     reducers: {
-        // categorytState: (state, action) => {
-        //     state.categories = action.payload;
-        // }
 
     },
     extraReducers: (builder) => {
@@ -34,5 +32,4 @@ const categorySlice = createSlice({
 })
 export const categoryState = (state: AppState) => state.categories;
 
-// export const { categorytState } = categorySlice.actions
 export default categorySlice.reducer;

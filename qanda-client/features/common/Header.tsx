@@ -21,19 +21,11 @@ const Header = () => {
     const dispatch = useAppDispatch();
     const [isOpen, setOpen] = useState<boolean>(false);
     const [subbject, setSubject] = useState('Choose Subject');
-    const [categories, setCategory] = useState([]);
-
-
-
-
-
     useEffect(() => {
-        const xxx: any = dispatch(fetchCategories)
-        unwrapResult(xxx);
+        dispatch(fetchCategories())
     }, [])
 
-    const state = useAppSelector(categoryState)
-    console.log('state', state)
+    const categories: any = useAppSelector(categoryState)
     const showAskQuestion = () => {
         setOpen(true);
     }
@@ -79,9 +71,9 @@ const Header = () => {
                         defaultValue="Choose subject"
 
                     >
-                        {/* {categories?.map((category) => (
-                            <MenuItem key={category._id} value={category._id}>{category?.name}</MenuItem>
-                        ))} */}
+                        {categories?.categories?.category?.map((item) => (
+                            <MenuItem key={item._id} value={item._id}>{item?.name}</MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 
@@ -99,7 +91,7 @@ const Header = () => {
                     <div className="left-nav-header">
                         <NextLink href="/">
                             <div className="logo">
-                                <Image src="/images/logo.svg" width={150} height={60} />
+                                <Image src="/images/logo.svg" width={150} height={60} alt="logo" />
                             </div>
                         </NextLink>
                     </div>
