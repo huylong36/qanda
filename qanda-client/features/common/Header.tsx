@@ -1,42 +1,46 @@
-import Image from 'next/image';
-import { Button, Container, FormControl, Input, InputLabel, MenuItem, Select, TextField, useMediaQuery, useTheme } from "@mui/material";
-import NextLink from '../../components/NextLink';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import InputAdornment from '@mui/material/InputAdornment';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import "./header.scss";
-import { useEffect, useState } from 'react';
-import { FCDialog } from '../../components/Modal';
-import { FCEditor } from '../../components/TinymceEditor';
+
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-import { createQuestionApi } from '../../utils/api/questionApi';
-import { apiGetCategory } from '../../utils/api/categoryApi';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, useMediaQuery, useTheme } from "@mui/material";
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
-import { fetchCategories } from '../../components/Category/category.slice';
-import { CombinedState } from 'redux';
+import categorySlice, { categoryState, fetchCategories } from '../../redux/reducers/category.slice';
+import { FCDialog } from '../../components/Modal';
+import NextLink from '../../components/NextLink';
+import { apiGetCategory } from '../../utils/api/categoryApi';
+import { createQuestionApi } from '../../utils/api/questionApi';
+import "./header.scss";
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { unwrapResult } from '@reduxjs/toolkit';
 const Header = () => {
     const theme = useTheme();
     const isTabletUI = useMediaQuery(theme.breakpoints.down("lg"));
     const [content, setContent] = useState<string>('');
     const [title, setTitle] = useState<string>('');
-
-    const [subbject, setSubject] = useState('Choose Subject');
-
-
-    // const stateCategory = useSelector((state) => state.categories);
-
-    console.log('stateCategory', stateCategory)
+    const dispatch = useAppDispatch();
     const [isOpen, setOpen] = useState<boolean>(false);
-    const dispatch = useDispatch();
+    const [subbject, setSubject] = useState('Choose Subject');
+    const [categories, setCategory] = useState([]);
+
+
+
+
+
+    useEffect(() => {
+        const xxx: any = dispatch(fetchCategories)
+        unwrapResult(xxx);
+    }, [])
+
+    const state = useAppSelector(categoryState)
+    console.log('state', state)
     const showAskQuestion = () => {
         setOpen(true);
     }
     const handleContent = (e) => {
         setContent(e.target.value)
     }
-    useEffect(() => {
-        dispatch(fetchCategories());
-    }, [])
+
     const handleChangeSubject = (event) => {
         setSubject(event.target.value)
     }
@@ -75,7 +79,7 @@ const Header = () => {
                         defaultValue="Choose subject"
 
                     >
-                        {/* {categories?.category?.map((category) => (
+                        {/* {categories?.map((category) => (
                             <MenuItem key={category._id} value={category._id}>{category?.name}</MenuItem>
                         ))} */}
                     </Select>

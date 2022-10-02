@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiGetCategory } from "../../utils/api/categoryApi";
+import { AppState } from "../store";
 
 const initialState = {
     categories: [],
@@ -12,7 +13,12 @@ export const fetchCategories = createAsyncThunk("categories/fetch", async () => 
 const categorySlice = createSlice({
     name: "categories",
     initialState,
-    reducers: {},
+    reducers: {
+        // categorytState: (state, action) => {
+        //     state.categories = action.payload;
+        // }
+
+    },
     extraReducers: (builder) => {
         const actionList = [fetchCategories]
         actionList.map(action => {
@@ -26,6 +32,7 @@ const categorySlice = createSlice({
         })
     },
 })
-export const categorytState = (state) => state.categorytState;
+export const categoryState = (state: AppState) => state.categories;
 
+// export const { categorytState } = categorySlice.actions
 export default categorySlice.reducer;

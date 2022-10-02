@@ -1,4 +1,6 @@
 const Question = require("../models/Question");
+const Category = require("../models/Category");
+const mongoose = require("mongoose");
 
 const createQuestion = async (req, res) => {
     const { name, content, slug, categoryId } = req.body;
@@ -20,4 +22,17 @@ const createQuestion = async (req, res) => {
         res.json({ success: false, message: "Error" });
     }
 };
-module.exports = { createQuestion };
+const getQuestionByCategoryId = async (req, res) => {
+    const { category } = req.query;
+    const questions = await Question.find({ category: category })
+    try {
+        res.json({ success: true, message: " okee", questions });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
+module.exports = { createQuestion, getQuestionByCategoryId };
